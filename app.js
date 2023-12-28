@@ -1,19 +1,4 @@
-const http = require('http'); //now this is simply the way you import files in nodeJS, "require()" either takes a path to another file, or if you don't have a path to one of your files, you can also import a core module, like http
-
-/*
-function rqListener(req, res) {
-
-}
-http.createServer(rqListener);
------ you don't have to explicitly create such a function though, you can also use so-called anonymous function...see below
-
-http.createServer(function (req, res) {
-
-});
-
-*/
-
-// or you can use an arrow function where you omit the function keyword and just have the two arguments followed by an equal sign and a greater sign....see below
+const http = require('http');
 
 const server = http.createServer((req, res) => {
     const url = req.url;
