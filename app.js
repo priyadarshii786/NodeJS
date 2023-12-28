@@ -1,4 +1,5 @@
 const http = require('http');
+const fs = require('fs');
 
 const server = http.createServer((req, res) => {
     const url = req.url;
@@ -11,7 +12,18 @@ const server = http.createServer((req, res) => {
         return res.end();
     }
     if (url === '/message' && method === 'POST') {
-        fs.writeFileSync('message.txt', 'DUMMY');
+        const body = [];
+        req.on('data', (chunk) => {
+            console.log(chunk);
+            body.push(chunk);
+        }); //going to our request and registring event listener. For create server, node implicitly creates one for us, now we do this on our own by using the "on" method. Now "on" allows us to listen to certain events and the event i want to listen here is the data event.
+        req.on('end', () => {
+            const parsedBody = Buffer.concat(body).toString();
+            const message = parsedBody.split('=')[1];
+            fs.writeFileSync('message.txt', message);
+
+        });
+
         res.statusCode = 302;
         res.setHeader('Location', '/');
         return res.end();
