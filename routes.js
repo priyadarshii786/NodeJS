@@ -34,29 +34,4 @@ const requestHandler = (req, res) => {
     res.end();
 };
 
-module.exports = requestHandler; // ------ this line is basically written so that this file successfully gets exported to the app.js file......there is multiple alternative of this line. See below.
-
-/*
-First alternative: -------- sometimes you export many things and you could do that by having an object which has like the handler "key" and requestHandler function.
-
-module.exports = {
-    handler: requestHandler;
-    someText: 'Some hard coded text'
-};
-
-
-Second alternative: --------
-
-module.exports.handler = requestHandler;
-module.exports.someText = 'Some hard coded text'
-
-
-Third alternative(shortcut):
-
-exports.handler = requestHandler;
-exports.someText = 'Some hard coded text'
-
-
-
-
-*/
+module.exports = requestHandler;
