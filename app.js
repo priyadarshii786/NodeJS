@@ -3,15 +3,17 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const adminRoutes = require('./routes/admin');  // ---- importing the "admin.js" named route file here(or more precisely, we are importing the "router" named object from there) from the routes folder.
-const shopRoutes = require('./routes/shop');// ---- importing the route "shop.js" NOTE: the order of imports doesn't matter.
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
 app.use(bodyParser.urlencoded());
 
-app.use(adminRoutes); // ----- just using that imported file here......and also the order matters here ie; kb kiske pahle and baad me likhna hai ye matter krta hai.
-app.use(shopRoutes); // ----- order here matters and we are registring it in second position.
+app.use('/admin', adminRoutes); // --- this is the filtering mechanism here in app.js and it allows us to put a common starting segment for our path which all routes in a given file use to outsource that into this app.js file
+app.use(shopRoutes);
 
-
+app.use((req, res, next) => {
+    res.status(404).send('<h1>Page not found</h1>');
+});
 
 
 app.listen(5000);
