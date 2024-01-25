@@ -1,9 +1,11 @@
-const express = require('express'); // ---- same what we did in admin.js file
+const path = require('path');
 
-const router = express.Router(); // ---- same what we did in admin.js file
+const express = require('express');
+
+const router = express.Router();
 
 router.get('/', (req, res, next) => {
-    res.send('<h1>Hello from Express!!')
+    res.sendFile(path.join(__dirname, '../', 'views', 'shop.html'));
 });
 
-module.exports = router; // ---- same what we did in admin.js file
+module.exports = router; 
