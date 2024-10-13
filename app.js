@@ -1,27 +1,31 @@
-const http = require('http'); //now this is simply the way you import files in nodeJS, "require()" either takes a path to another file, or if you don't have a path to one of your files, you can also import a core module, like http
-
-/*
-function rqListener(req, res) {
-
-}
-http.createServer(rqListener);
------ you don't have to explicitly create such a function though, you can also use so-called anonymous function...see below
-
-http.createServer(function (req, res) {
-
-});
-
-*/
-
-// or you can use an arrow function where you omit the function keyword and just have the two arguments followed by an equal sign and a greater sign....see below
+const http = require('http');
+const fs = require('fs');
 
 const server = http.createServer((req, res) => {
     const url = req.url;
+    const method = req.method;
     if (url === '/') {
         res.write('<html>');
         res.write('<head><title> Enter Message </title></head>');
         res.write('<body><form action="/message" method="POST"><input type="text" name="message"><button type="submit">Send</button></form></body>');
         res.write('</html>');
+        return res.end();
+    }
+    if (url === '/message' && method === 'POST') {
+        const body = [];
+        req.on('data', (chunk) => {
+            console.log(chunk);
+            body.push(chunk);
+        }); //going to our request and registring event listener. For create server, node implicitly creates one for us, now we do this on our own by using the "on" method. Now "on" allows us to listen to certain events and the event i want to listen here is the data event.
+        req.on('end', () => {
+            const parsedBody = Buffer.concat(body).toString();
+            const message = parsedBody.split('=')[1];
+            fs.writeFileSync('message.txt', message);
+
+        });
+
+        res.statusCode = 302;
+        res.setHeader('Location', '/');
         return res.end();
     }
 
