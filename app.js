@@ -4,10 +4,16 @@ const express = require('express');  // ---- third party package
 
 const app = express();
 
+app.use((req, res, next) => {
+    console.log('In the middleware!!');
+    next(); // ----- next() allows the request to continue to the next middleware in line.
+}); // ----- use allows us to add a new middleware function. It accepts an array of so-called handlers here and it has some other use cases too.
+
+app.use((req, res, next) => {
+    console.log('In the another middleware!!');
+});
+
 const server = http.createServer(app);
 
-// ------ Had we used Second alternative of exporting there in the routes.js file, these below lines could have been used
-// console.log(routes.someText);
-// const server = http.createServer(routes.handler);
 
 server.listen(5000);
